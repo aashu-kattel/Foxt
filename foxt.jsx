@@ -1,8 +1,8 @@
-// Font Cycling Plugin for After Effects
-// This script automatically cycles through available font styles for selected text layers
+// FontFlux - Dynamic Font Cycling Plugin for After Effects
+// This script automatically cycles through all fonts installed on your system for selected text layers
 
 (function() {
-    var mainPanel = (this instanceof Panel) ? this : new Window("palette", "Font Cycler", undefined);
+    var mainPanel = (this instanceof Panel) ? this : new Window("palette", "FontFlux", undefined);
     mainPanel.orientation = "column";
     mainPanel.alignChildren = ["center", "top"];
     mainPanel.spacing = 10;
@@ -30,17 +30,60 @@
     var cycleTimer = null;
     var isRunning = false;
     var currentFontIndex = 0;
+    var systemFonts = [];
+    
+    // Function to get all available fonts from the system - safer implementation
+    function getSystemFonts() {
+        var fonts = [];
+        
+        try {
+            if (app.fonts && app.fonts.length > 0) {
+                // Extract unique font families
+                for (var i = 0; i < app.fonts.length; i++) {
+                    if (app.fonts[i] && app.fonts[i].family) {
+                        var fontFamily = app.fonts[i].family;
+                        if (fonts.indexOf(fontFamily) === -1) {
+                            fonts.push(fontFamily);
+                        }
+                    }
+                }
+            } else {
+                // Fallback to common fonts if app.fonts is not available
+                fonts = ["Arial", "Helvetica", "Times New Roman", "Courier New", "Verdana", "Georgia", "Tahoma", "Trebuchet MS"];
+                statusText.text = "Using fallback fonts (app.fonts not available)";
+            }
+        } catch (e) {
+            // Fallback to common fonts if there's an error
+            fonts = ["Arial", "Helvetica", "Times New Roman", "Courier New", "Verdana", "Georgia", "Tahoma", "Trebuchet MS"];
+            statusText.text = "Error accessing fonts: " + e.toString();
+        }
+        
+        return fonts;
+    }
+    
+    // Initialize system fonts array with error handling
+    try {
+        systemFonts = getSystemFonts();
+        statusText.text = "Found " + systemFonts.length + " font families";
+    } catch (e) {
+        systemFonts = ["Arial", "Helvetica", "Times New Roman", "Courier New"];
+        statusText.text = "Error initializing fonts: " + e.toString();
+    }
     
     function getSelectedTextLayers() {
         var textLayers = [];
-        var comp = app.project.activeItem;
-        if (comp && comp instanceof CompItem) {
-            for (var i = 0; i < comp.selectedLayers.length; i++) {
-                var layer = comp.selectedLayers[i];
-                if (layer instanceof TextLayer) {
-                    textLayers.push(layer);
+        try {
+            var comp = app.project.activeItem;
+            if (comp && comp instanceof CompItem) {
+                for (var i = 0; i < comp.selectedLayers.length; i++) {
+                    var layer = comp.selectedLayers[i];
+                    if (layer instanceof TextLayer) {
+                        textLayers.push(layer);
+                    }
                 }
             }
+        } catch (e) {
+            statusText.text = "Error getting text layers: " + e.toString();
         }
         return textLayers;
     }
@@ -55,8 +98,13 @@
                 return;
             }
             
-            var fontFamilies = ["Arial", "Helvetica", "Times New Roman", "Courier New", "Verdana", "Georgia", "Tahoma", "Trebuchet MS"];
-            var selectedFont = fontFamilies[currentFontIndex % fontFamilies.length];
+            if (systemFonts.length === 0) {
+                statusText.text = "No fonts found on the system!";
+                stopCycling();
+                return;
+            }
+            
+            var selectedFont = systemFonts[currentFontIndex % systemFonts.length];
             
             for (var i = 0; i < textLayers.length; i++) {
                 var textProp = textLayers[i].property("Source Text");
@@ -65,7 +113,7 @@
                 textProp.setValue(textDocument);
             }
             
-            statusText.text = "Applied: " + selectedFont;
+            statusText.text = "Applied: " + selectedFont + " (" + (currentFontIndex % systemFonts.length + 1) + "/" + systemFonts.length + ")";
             currentFontIndex++;
         } catch (err) {
             statusText.text = "Error: " + err.toString();
@@ -73,6 +121,7 @@
         app.endUndoGroup();
     }
     
+    // Make the function available globally for the scheduler
     $.global.cycleFonts = cycleFonts;
     
     function startCycling() {
@@ -90,7 +139,7 @@
             
             cycleFonts();
             cycleTimer = app.scheduleTask("$.global.cycleFonts()", interval, true);
-            statusText.text = "Cycling fonts every " + intervalInput.text + " seconds";
+            statusText.text = "Cycling through " + systemFonts.length + " fonts every " + intervalInput.text + " seconds";
         }
     }
     
