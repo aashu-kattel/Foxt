@@ -40,4 +40,6 @@ For quick access, you can also set up a keyboard shortcut using:
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-*Foxt: Typography in motion, no keyframes required.*
+*Foxt: Typography in motion, no keyframes required.* 
+
+-- Previously "FontFlux"

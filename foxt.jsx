@@ -2,7 +2,7 @@
 // This script automatically cycles through all fonts installed on your system for selected text layers
 
 (function() {
-    var mainPanel = (this instanceof Panel) ? this : new Window("palette", "FontFlux", undefined);
+    var mainPanel = (this instanceof Panel) ? this : new Window("palette", "Foxt", undefined);
     mainPanel.orientation = "column";
     mainPanel.alignChildren = ["center", "top"];
     mainPanel.spacing = 10;
