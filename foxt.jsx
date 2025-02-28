@@ -1,4 +1,4 @@
-// FontFlux - Dynamic Font Cycling Plugin for After Effects
+// Foxt - Dynamic Font Cycling Plugin for After Effects
 // This script automatically cycles through all fonts installed on your system for selected text layers
 
 (function() {
