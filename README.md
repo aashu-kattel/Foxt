@@ -7,8 +7,7 @@
 Foxt is a  After Effects script that automatically cycles through font styles at customizable intervals.
 
 ## Video
-[![Video Tutorial](https://github.com/user-attachments/assets/fff586f1-600a-40ca-92e0-2400ca953c12)]([link-url](https://www.linkedin.com/posts/aashutosh-kattel_aftereffect-plugin-textanimation-activity-7301469048297398272-vorA?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD4vuAsBu0XPeyDXRrNdiisbn8W1vEadmDw))
-
+[![Video Tutorial](https://github.com/user-attachments/assets/fff586f1-600a-40ca-92e0-2400ca953c12)](https://www.linkedin.com/posts/aashutosh-kattel_aftereffect-plugin-textanimation-activity-7301469048297398272-vorA?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD4vuAsBu0XPeyDXRrNdiisbn8W1vEadmDw)
 
 ## Features
 
