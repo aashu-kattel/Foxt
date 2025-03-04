@@ -23,7 +23,7 @@ Foxt is a  After Effects script that automatically cycles through font styles at
    - Windows: `C:\Program Files\Adobe\Adobe After Effects [version]\Support Files\Scripts\`
    - Mac: `/Applications/Adobe After Effects [version]/Scripts/`
 3. Restart After Effects
-4. Access FontFlux via: `File > Scripts > Foxt.jsx`
+4. Access Foxt via: `File > Scripts > Foxt.jsx`
 
 For quick access, you can also set up a keyboard shortcut using:
 `Edit > Keyboard Shortcuts... > File > Scripts > Foxt.jsx`
